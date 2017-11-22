@@ -7,6 +7,7 @@ import com.coolweather.android.db.County;
 import com.coolweather.android.db.Province;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -20,16 +21,16 @@ public class Utility {
         if (!TextUtils.isEmpty(response)) {
             //用JSONArray， JSONObject把数据解析出来，然后通过save（）方法把数据存储到实体类对象上
             try {
-                JSONArray allProvinces = new JSONArray(response);
+                JSONArray allProvinces = new JSONArray(response);//一个数组
                 for (int i = 0; i < allProvinces.length(); i++) {
-                    JSONObject provinceObject = allProvinces.getJSONObject(i);
+                    JSONObject provinceObject = allProvinces.getJSONObject(i);//通过getJSONObject()获取到JSONObject对象
                     Province province = new Province();
-                    province.setProvinceName(provinceObject.getString("name"));
-                    province.setProvinceCode(provinceObject.getString("code"));
-                    province.save();
+                    province.setProvinceName(provinceObject.getString("name"));//通过getString(参数是string类型，不用转换)把
+                    province.setProvinceCode(provinceObject.getInt("id"));//getInt(参数是String类型)，getInt()把别的类型转成Int
+                    province.save();//save()方法是DataSupport的，该行代码表示把“数据添加到数据库中相对应的那个表中”也就是province表中
                 }
                 return true;
-            } catch (Exception e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
@@ -46,12 +47,13 @@ public class Utility {
 
                     City city = new City();
                     city.setCityName(cityObject.getString("name"));
-                    city.setCityCode(cityObject.getString("code"));
+                    city.setCityCode(cityObject.getInt("id"));
                     city.setProvinceId(provinceId);
                     city.save();
+
                 }
                 return true;
-            }catch (Exception e){
+            }catch (JSONException e){
                 e.printStackTrace();
             }
         }
@@ -68,13 +70,13 @@ public class Utility {
 
                     County county=new County();
                     county.setCountyName(countyObject.getString("name"));
-                    county.setWeatherId(countyObject.getString("weatherId"));
+                    county.setWeatherId(countyObject.getString("weather_id"));
                     county.setCityId(cityId);
                     county.save();
 
                 }
                 return true;
-            }catch (Exception e){
+            }catch (JSONException e){
                 e.printStackTrace();
             }
 
