@@ -21,6 +21,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="#fff"/>
+    // android:layout_gravity是用来设置该view相对与父view 的位置，而android:gravity用于设置View中内容相对于View组件的对齐方式
 
     <TextView
         android:id="@+id/max_text"

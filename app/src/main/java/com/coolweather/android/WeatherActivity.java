@@ -1,5 +1,6 @@
 package com.coolweather.android;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -169,6 +170,11 @@ public class WeatherActivity extends AppCompatActivity {
                         editor.putString("weather",responseText);
                         editor.apply();
                         showWeatherInfo(weather);
+
+                        //启动AutoUpdateService，定时自动更新服务
+                            Intent intent=new Intent(WeatherActivity.this,AutoUpdateService.class);
+                            startService(intent);
+
                         }else {
                             Toast.makeText(WeatherActivity.this,"获取天气信息失败",Toast.LENGTH_SHORT).show();
                         }
