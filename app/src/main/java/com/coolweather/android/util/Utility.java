@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.coolweather.android.db.City;
 import com.coolweather.android.db.County;
 import com.coolweather.android.db.Province;
+import com.coolweather.android.gson.Weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,5 +84,25 @@ public class Utility {
 
         }
         return false;
+    }
+
+    //将返回的JSON数据解析成Weather实体类
+
+    public static Weather handleWeatherResponse(String response){
+
+        try{//JSONObject是{...},JSONArray是[{},{},...{}]，顾名思义：JSONArray，是由JSONObject构成的数组
+
+            JSONObject jsonObject=new JSONObject(response);
+            JSONArray jsonArray=jsonObject.getJSONArray("HeWeather");
+            //jsonArray.getJSONObject(0) 是从JSONArray中获得JSONObject对象；toString()是把类型直接转换成String类型
+            String weatherContent=jsonArray.getJSONObject(0).toString();
+
+            //之前已经按照对应的“数据格式，定义 过 相应的 GSON实体类” 所以只要通过Gson的fromJson（）方法，就能直接把JSON数据转换成 Weather对象
+            return new Gson().fromJson(weatherContent,Weather.class);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
