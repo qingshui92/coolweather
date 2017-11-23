@@ -13,6 +13,21 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
 
+    //DrawerLayout下游两个控件，第一个是SwipeRefreshLayout，用于作为主屏幕中间的内容；第二个是fragment，用于滑动菜单中显示内容，是遍历省市县的碎片
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    //下拉刷新的方法;     针对目前的bug：一直显示的都是已缓存的天气信息，而且不能返回
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        //在ScrollView外面嵌套了一层SwipeRefreshLayout，所以ScrollView就有下拉刷新的功能
+
     <ScrollView
         android:id="@+id/weather_layout"
         android:layout_width="match_parent"
@@ -41,5 +56,16 @@
         </LinearLayout>
 
     </ScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+        
+        <fragment
+            android:id="@+id/choose_area_fragment"
+            android:name="com.coolweather.android.ChooseAreaFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"/>
+
+</android.support.v4.widget.DrawerLayout>
 
 </FrameLayout>
